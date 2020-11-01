@@ -126,17 +126,9 @@ class Bunch(object):
     """
     A dot-accessible dictionary (a la JavaScript objects)
 
-    # Returns a stand-in class for a class (e.g. lender decision response)
+    # Returns a stand-in class for a class
     # with only the necessary attributes needed for test in question.
     # In other words, the following mock would be used in a function
-    # that only needs lender_app_id, dcsn_rspns_id and cp_id from the
-    # lender decision response
-
-    mock_get_lender_decision_response_for_contract_pull.return_value = Bunch(
-        lender_app_id='LAP12345',
-        dcsn_rspns_id=98765,
-        cp_id=10002052
-    )
     """
 
     def __init__(self, **kwds):
