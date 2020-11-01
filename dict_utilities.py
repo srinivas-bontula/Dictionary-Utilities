@@ -12,9 +12,6 @@ import six
 
 PATH_DELIMITERS = [",", ".", "[", "]"]
 
-PII_KEYS = ["dob", "ssn", "driver_license_no", "business_tax_id"]
-
-
 def _split_and_trim(string, *delimiters):
     pattern = "|".join(map(re.escape, delimiters))
     return list(filter(None, re.split(pattern, string, 0)))
@@ -289,37 +286,6 @@ def _recursive_mask_values(obj, *pii_keys):
 
     Args:
         data(dict): a nested dict/list structure to search for keys under
-
-    Example:
-        data = {
-            "dtapplication": {
-                "applicants": [
-                    {
-                        "name": "Meow Mix",
-                        "ssn": "12312453"
-                    },
-                    {
-                        "name": "Meow Mix",
-                        "ssn": "12312453"
-                    }
-                ]
-            }
-        }
-        print recursive_mask_values(data)
-        {
-            "dtapplication": {
-                "applicants": [
-                    {
-                        "name": "Meow Mix",
-                        "ssn": "X"
-                    },
-                    {
-                        "name": "Meow Mix",
-                        "ssn": "X"
-                    }
-                ]
-            }
-        }
     """
     if isinstance(obj, dict):
         return {
@@ -349,38 +315,6 @@ def _recursively_alter_values_in_dict(obj, fn, *keys):
 
     Args:
         data(dict): a nested dict structure
-
-
-    Example:
-        data = {
-            "dtapplication": {
-                "applicants": [
-                    {
-                        "name": "Test Emp",
-                        "link_url": "app/test"
-                    },
-                    {
-                        "name": "Tester Emp",
-                        "link_url": "app/tester"
-                    }
-                ]
-            }
-        }
-        print _recursively_alter_values_in_dict(data, func, "link_url")
-        {
-            "dtapplication": {
-                "applicants": [
-                    {
-                        "name": "Test Emp",
-                        "link_url": func(link_url) --> The value would be the return value of the function "func"
-                    },
-                    {
-                        "name": "Tester Emp",
-                        "link_url": func(link_url)
-                    }
-                ]
-            }
-        }
     """
 
     if isinstance(obj, dict):
